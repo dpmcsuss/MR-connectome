@@ -109,12 +109,5 @@ def main ():
   result = parser.parse_args()
   genGraph ( result.fbrfile, result.output, result.count )
 
-  if 1:
-    from fibergraph_sm import FiberGraph
-  else:     
-    from fibergraph import FiberGraph
- 
-
-
 if __name__ == "__main__":
   main()

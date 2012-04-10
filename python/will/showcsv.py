@@ -9,12 +9,8 @@ parser.add_argument('csvfile', action="store")
 
 result = parser.parse_args()
 
-# Read the csv file
-#graphdata = np.genfromtxt(result.csvfile, dtype=None, delimiter=',', names=True)
-
 reader = csv.reader(open(result.csvfile,"rb"))
 graphdata = np.array([[float(col) for col in row] for row in reader])
-#graphdata = np.array([float(col) for col in row] for row in reader])
 
 print graphdata.shape
 

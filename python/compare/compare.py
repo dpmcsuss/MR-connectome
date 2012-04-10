@@ -23,9 +23,8 @@ csvdata = np.array([[float(col) for col in row] for row in reader])
 
 for j in range (matdata.shape[1]):
   for i in range (matdata.shape[0]):
-    if matdata [ i,j ] == 0 and csvdata [i,j] != 0:
-      print "Nonzero csv data at ", i,j
-    if csvdata [ i,j ] == 0 and matdata [i,j] != 0:
-      print "Nonzero mat data at ", i,j
+    if matdata [ i,j ] != csvdata [i+1,j+1]:
+      print "Data differ at (%d,%d): values mat %d csv %d" % (i,j,matdata[i,j],csvdata[i,j])
+
 
 

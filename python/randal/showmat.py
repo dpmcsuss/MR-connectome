@@ -16,7 +16,7 @@ matcontents = loadmat ( result.matfile )
 graphcsc = matcontents["fibergraph"] 
 graphdata = np.array (graphcsc.todense())
 
-print graphdata [ 0:4, 0:4 ]
+print graphdata [ 0:5, 0:5 ]
 
 matplotlib.pyplot.pcolor ( graphdata[:,:] )
 
