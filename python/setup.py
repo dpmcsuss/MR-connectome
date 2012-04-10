@@ -7,6 +7,7 @@ import numpy
 ext_modules = [Extension("fiber",["fiber.pyx"],include_dirs=[numpy.get_include()]),
                Extension("roi",["roi.pyx"],include_dirs=[numpy.get_include()]),
                Extension("fibergraph",["fibergraph.pyx"],include_dirs=[numpy.get_include()]),
+               Extension("fibergraph_sm",["fibergraph_sm.pyx"],include_dirs=[numpy.get_include()]),
 ]
 # You can add directives for each extension too
 # by attaching the `pyrex_directives`
