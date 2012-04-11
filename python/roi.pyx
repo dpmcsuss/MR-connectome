@@ -3,6 +3,7 @@ import os
 import xml.dom.minidom
 
 import numpy as np
+cimport numpy as np
 
 #
 #  Makes a ton of assumptions about the XML data.  
@@ -35,12 +36,11 @@ class ROIData:
     self._filename = filename
     self._fileobj = open(self._filename, mode='rb')
 
-    self.data = np.fromfile(self._fileobj, dtype='>i4', count=dim[0]*dim[1]*dim[2])
+    self.data = np.fromfile(self._fileobj, dtype='>i5', count=dim[0]*dim[1]*dim[2])
 
     self.data = np.reshape ( self.data, dim, order='F' )
-    print self.data.shape
 
-  def get ( self, index ):
+  def get ( self, np.ndarray[np.uint32_t,ndim=1] index ):
     """Returns the ROI associated with a voxel.
       Either returns 0 if out of the data space or 
       returns ROI from 1 to 35 or 101 to 135.
@@ -57,7 +57,7 @@ class ROIData:
       return self.data [ index[0], index[1], index[2] ]
 
 # Use the crazy numbering system
-def translate ( index ):
+cdef int translate ( int index ):
   """Turn ROIs from labels into 70 values from 0 to 69.
      Return 0-34 for 1-35.
      Return 35-69 for 101-135.
@@ -67,10 +67,3 @@ def translate ( index ):
     return index - 66
   else:
     return index - 1
-
-#   degraded.  Used to translate ROIs here.  Just give back the value.
-#    if ( self.data [ index[0], index[1], index[2] ] > 100 ):
-#      return self.data [ index[0], index[1], index[2] ] - 65
-#    else:
-#      return self.data [ index[0], index[1], index[2] ]
-

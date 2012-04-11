@@ -4,6 +4,7 @@ import os
 import zindex
 
 import numpy
+cimport numpy
 
 
 class FiberReader:
