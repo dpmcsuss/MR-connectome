@@ -8,8 +8,6 @@ import math
 import itertools
 from cStringIO import StringIO
 
-from scipy.sparse cimport lil_matrix, csc_matrix
-from scipy.io cimport loadmat, savemat
 cimport numpy as np
 
 
