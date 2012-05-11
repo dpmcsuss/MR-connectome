@@ -17,16 +17,26 @@ from collections import Counter
 from mayavi import mlab
     
 def load_fibergraph(roi_fn, mat_fn):
+    """Load fibergraph from roi_fn and mat_fn"""
     
     roix = roi.ROIXML(roi_fn+'.xml')
     rois = roi.ROIData(roi_fn+'.raw', roix.getShape())
     
     fg = fibergraph.FiberGraph(roix.getShape(),rois,[])
-    fg.loadFromMatlab('fibergraph', '/mnt/braingraph1data/MRCAPgraphs/biggraphs/M87102217_fiber.mat')
+    fg.loadFromMatlab('fibergraph', mat_fn)
     
     return fg
     
+    
+    
 def get_lcc_idx(G):
+    """Determines and sorts the connected components of G
+    
+    Each vertex in G is assigned a label corresponding to its connected component.
+    The largest connected component is labelled 0, second largest 1, etc.
+    
+    **NOTE**: All isolated vertices (ie no incident edges) are put in 1 connected components
+    """
     ncc,vertexCC = sp.cs_graph_components(G)
         
     cc_size = Counter(vertexCC)
@@ -75,6 +85,11 @@ def get_cc_coords(vcc, ncc):
 
     return np.concatenate((coord,vcc[inlcc][np.newaxis].T),axis=1)
     
+def cc_to_coord(vcc,shape):
+    ccz = np.zeros(shape)
+    [ccz.itemset(tuple(zindex.MortonXYZ(i)), vcc[i]) for i in xrange(len(vcc))]
+    return ccz
+    
 def save_figures(coord, fn):
     """Saves 3 images which are 3d color representations of the coordinates in coord
     
@@ -95,14 +110,10 @@ def save_figures(coord, fn):
     mlab.close(f)
     
     
-    
-    
-    
-    
 if __name__=='__main__':
     fiberDir = '/mnt/braingraph1data/MRCAPgraphs/biggraphs/'
     roiDir = '/mnt/braingraph1data/MR.new/roi/'
     ccDir = '/data/biggraphs/connectedcomp/'
     figDir = '/home/dsussman/Dropbox/Figures/DTMRI/lccPics/'
 
-    cc_for_each_brain(fiberDir, roiDir, ccDir, figDir)        
+    cc_for_each_brain(fiberDir, roiDir, ccDir, figDir)         
